@@ -88,6 +88,28 @@ add_action( 'wp_logout', function() {
     exit;
 });
 
+/*** Registration form password match validation ***/
+add_filter( 'bricks/form/validate', function( $errors, $form ) {
+	$form_settings = $form->get_settings();
+  	$form_fields   = $form->get_fields();
+  	$form_id       = $form_fields['formId'];
+	$form_pwd_1    = $form->get_field_value( 'opesmf' ); // change to your registeration form password field ID
+	$form_pwd_2    = $form->get_field_value( 'jgdfeb' ); // change to your registeration form confirm password field ID
+	
+	// Skip validation: Form ID is not 'kfbqso'
+  	if ( $form_id !== 'zhddbi' ) { // change to your registeration form ID
+    		// Early return the $errors array if it's not target form
+    		return $errors;
+  	}
+	
+	if ( !empty( $form_pwd_1 ) ) {
+		if ( $form_pwd_1 != $form_pwd_2 ) {
+			$errors[] = esc_html__( 'Password mismatch. Please try again.', 'bricks' );
+		}
+	}
+	return $errors;
+}, 10, 2);
+
 /*** Custom form action for custom password lost page ***/
 /*** Action to get user password reset link, send email, redirect and error handling ***/
 add_action( 'bricks/form/custom_action', 'custom_password_lost_request', 10, 1 );
