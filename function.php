@@ -1,3 +1,5 @@
+<?php
+
 /*** Redirect default wp-login.php to custom login page ***/
 add_action( 'login_form_login', function() {
 	if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
