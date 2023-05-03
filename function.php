@@ -202,7 +202,7 @@ function do_password_reset($form) {
 			);
 		}
 		// Parameter checks OK, reset password 
-		reset_password( $user, '' . $formPwd . '' );
+		reset_password( $user, $formPwd );
 
     		$to = $user->user_email;
 		$from = 'support@weblab.com'; // change to your email address
