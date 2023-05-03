@@ -209,7 +209,7 @@ function do_password_reset($form) {
 	  $subject = 'Password Changed'; // change to your prefer subject
 	
 	  $message  = __('You had successfully change your Weblab account password.') . "\r\n\r\n";
-	  $message .= __('New password: ' . $form->get_field_value( 'picqsb' ) . '') . "\r\n\r\n";
+	  $message .= __('New password: ' . $formPwd . '') . "\r\n\r\n";
 	  $message .= __( 'Thanks!' ) . "\r\n";
 		
 	  $headers[] = 'From: Support <'.$from.'>';
