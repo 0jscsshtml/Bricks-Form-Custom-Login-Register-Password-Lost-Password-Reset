@@ -131,7 +131,7 @@ add_action( 'bricks/form/custom_action', 'custom_password_lost_request', 10, 1 )
 function custom_password_lost_request($form) {
 	$fields = $form->get_fields();
 	$formId = $fields['formId'];
-  $formEmail = $form->get_field_value( '15c7e8' ); // change to your password lost form email field ID
+	$formEmail = $form->get_field_value( '15c7e8' ); // change to your password lost form email field ID
 	
 	if ( $formId !== 'hozfnt' ) { // change to your password lost form ID
 		return;
@@ -158,8 +158,8 @@ function custom_password_lost_request($form) {
 		
 		$result = wp_mail( $to, $subject, $message, $headers );
 		
-    $redirect_url = home_url( 'sign-in' ); // change to your custom login page slug
-    $redirect_url = add_query_arg( 'checkemail', 'confirm', $redirect_url );
+    		$redirect_url = home_url( 'sign-in' ); // change to your custom login page slug
+   		$redirect_url = add_query_arg( 'checkemail', 'confirm', $redirect_url );
         
 		$form->set_result(
 			[
@@ -171,7 +171,7 @@ function custom_password_lost_request($form) {
 		);	
 	} else {
 		$redirect_url = home_url( 'password-lost' ); // change to your custom password lost page slug
-    $redirect_url = add_query_arg( 'errors', 'invalid_email', $redirect_url );
+    		$redirect_url = add_query_arg( 'errors', 'invalid_email', $redirect_url );
 
 		$form->set_result(
 			[
@@ -274,7 +274,7 @@ function do_password_reset($form) {
 			[
 				'action'          => 'password_resetted_error',
 				'type'            => 'error',
-				'message' 		    => esc_html__('Invalid request! Please try again.', 'bricks'),
+				'message' 	  => esc_html__('Invalid request! Please try again.', 'bricks'),
 			]
 		);
 	}
