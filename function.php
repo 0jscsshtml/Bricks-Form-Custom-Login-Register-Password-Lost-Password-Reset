@@ -152,7 +152,7 @@ add_action( 'bricks/form/custom_action', 'do_password_reset', 10, 1 );
 function do_password_reset($form) {
 	$fields = $form->get_fields();
 	$formId = $fields['formId'];
-  $formPwd = $form->get_field_value( 'picqsb' ); // change to your password reset form first password field ID
+	$formPwd = $form->get_field_value( 'picqsb' ); // change to your password reset form first password field ID
 	
 	if ( $formId !== 'nhqlpu' ) { // change to your password reset form ID
 		return;
@@ -204,18 +204,18 @@ function do_password_reset($form) {
 		// Parameter checks OK, reset password 
 		reset_password( $user, '' . $formPwd . '' );
 
-    $to = $user->user_email;
-	  $from = 'support@weblab.com'; // change to your email address
-	  $subject = 'Password Changed'; // change to your prefer subject
+    		$to = $user->user_email;
+		$from = 'support@weblab.com'; // change to your email address
+		$subject = 'Password Changed'; // change to your prefer subject
 	
-	  $message  = __('You had successfully change your Weblab account password.') . "\r\n\r\n";
-	  $message .= __('New password: ' . $formPwd . '') . "\r\n\r\n";
-	  $message .= __( 'Thanks!' ) . "\r\n";
+	  	$message  = __('You had successfully change your Weblab account password.') . "\r\n\r\n";
+	  	$message .= __('New password: ' . $formPwd . '') . "\r\n\r\n";
+	  	$message .= __( 'Thanks!' ) . "\r\n";
 		
-	  $headers[] = 'From: Support <'.$from.'>';
-	  $headers[] = 'Reply-to: '. $from;
+	  	$headers[] = 'From: Support <'.$from.'>';
+	  	$headers[] = 'Reply-to: '. $from;
 		
-	  $result = wp_mail( $to, $subject, $message, $headers );
+	  	$result = wp_mail( $to, $subject, $message, $headers );
 
 		$redirect_url = home_url( 'sign-in?password=changed' ); // change to your custom login page slug
 			
