@@ -88,7 +88,7 @@ add_action( 'wp_logout', function() {
     exit;
 });
 
-/*** Registration form password match validation ***/
+/*** Registration form password match, email domain blacklist validation ***/
 add_filter( 'bricks/form/validate', function( $errors, $form ) {
 	$form_settings = $form->get_settings();
   	$form_fields   = $form->get_fields();
