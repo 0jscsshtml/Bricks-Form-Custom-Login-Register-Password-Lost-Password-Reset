@@ -1,4 +1,5 @@
 # Custom Login/Register/Password Lost/Password Reset Page with Bricks Builder Form Element
+# Credit to Jarkko Laine <a href="https://tutsplus.com/authors/jarkko-laine"></a> on 
 
 #1 Create Login/Register/Password Lost/Password Reset Page as usual
 
