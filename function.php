@@ -93,6 +93,7 @@ add_filter( 'bricks/form/validate', function( $errors, $form ) {
 	$form_settings = $form->get_settings();
   	$form_fields   = $form->get_fields();
   	$form_id       = $form_fields['formId'];
+	$form_email    = $form->get_field_value( 'urijhn' ); // change to your registeration form email field ID
 	$form_pwd_1    = $form->get_field_value( 'opesmf' ); // change to your registeration form password field ID
 	$form_pwd_2    = $form->get_field_value( 'jgdfeb' ); // change to your registeration form confirm password field ID
 	
@@ -102,11 +103,25 @@ add_filter( 'bricks/form/validate', function( $errors, $form ) {
     		return $errors;
   	}
 	
-	if ( !empty( $form_pwd_1 ) ) {
-		if ( $form_pwd_1 != $form_pwd_2 ) {
-			$errors[] = esc_html__( 'Password mismatch. Please try again.', 'bricks' );
+	if ( $form_pwd_1 == $form_pwd_2 ) {
+		if (!preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#", $form_pwd_1)) {
+			$errors[] = esc_html__( 'Password must minimum of 8 charaters, contain at least 1 number, contain at least one uppercase character, contain at least one lowercase character, contain at least one special character', 'bricks' );
 		}
+	} else {
+		$errors[] = esc_html__( 'Password mismatch. Please try again.', 'bricks' );
 	}
+	
+	$blacklist = [
+    		'@gmail.com',
+    		'@yahoo.com',
+	];
+	
+	foreach ($blacklist as $blacklist_email) {
+    		if (stripos($form_email, $blacklist_email) !== false) {
+        		$errors[] = esc_html__( 'Please use your business email domain to register.', 'bricks' );
+    		}
+	}
+
 	return $errors;
 }, 10, 2);
 
