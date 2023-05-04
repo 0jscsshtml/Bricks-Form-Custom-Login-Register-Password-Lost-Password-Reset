@@ -200,13 +200,14 @@ function do_password_reset($form) {
 	$user = check_password_reset_key( $rp_key, $rp_login );
 		
 	if ( ! $user || is_wp_error( $user ) ) {
-		$redirect_url = home_url( 'sign-in' ); // change to your custom login page slug
 		if ( $user && $user->get_error_code() === 'expired_key' ) {
-			$redirect_url = add_query_arg( 'login', 'expiredkey', $redirect_url );
+			wp_redirect( home_url( 'sign-in?login=expiredkey' ) ); // Cchange to your custom login page slug
 		} else {
-			$redirect_url = add_query_arg( 'login', 'invalidkey', $redirect_url );
+			wp_redirect( home_url( 'sign-in?login=invalidkey' ) ); // Cchange to your custom login page slug
 		}
+		exit;
 	}
+	
 	if ( !empty( $formPwd ) ) { 
 		if ( $formPwd != $form->get_field_value( 'fcnevh' ) ) { // change to your password reset form second password field ID
 			// Passwords don't match 
