@@ -3,89 +3,92 @@
 /*** Redirect default wp-login.php to custom login page ***/
 add_action( 'login_form_login', function() {
 	if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
-        $redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : null;
+        	$redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : null;
     
-        if ( is_user_logged_in() ) {
-            redirect_logged_in_user( $redirect_to );
-            exit;
-        }
+        	if ( is_user_logged_in() ) {
+            		redirect_logged_in_user( $redirect_to );
+            		exit;
+        	}
 
-        // The rest are redirected to the login page 
-        $login_url = home_url( 'sign-in' ); // change to your custom login page slug
-        if ( ! empty( $redirect_to ) ) {
-            $login_url = add_query_arg( 'redirect_to', $redirect_to, $login_url );
-        }
-        wp_redirect( $login_url );
-        exit;
-    }
+        	// The rest are redirected to the login page 
+        	$login_url = home_url( 'sign-in' ); // change to your custom login page slug
+        	if ( ! empty( $redirect_to ) ) {
+            		$login_url = add_query_arg( 'redirect_to', $redirect_to, $login_url );
+        	}
+        	wp_redirect( $login_url );
+        	exit;
+    	}
 });
 
 /*** Redirect default wp-login.php?action=register to custom register page ***/
 add_action( 'login_form_register', function() {
 	if ( 'GET' == $_SERVER['REQUEST_METHOD'] ) {
-        if ( is_user_logged_in() ) {
-            $this->redirect_logged_in_user();
-        } else {
-            wp_redirect( home_url( 'sign-in' ) ); // change to your custom register page slug
-        }
-        exit;
-    }
+        	if ( is_user_logged_in() ) {
+            		$this->redirect_logged_in_user();
+        	} else {
+            		wp_redirect( home_url( 'sign-in' ) ); // change to your custom register page slug
+        	}
+        	exit;
+    	}
 });
 
 /*** Redirect default wp-login.php?action=lostpassword to custom password lost page ***/
 add_action( 'login_form_lostpassword', function() {
 	if ( 'GET' == $_SERVER['REQUEST_METHOD'] ) {
-        if ( is_user_logged_in() ) {
-            $this->redirect_logged_in_user();
-            exit;
-        }
-        wp_redirect( home_url( 'password-lost' ) ); // change to your custom password lost page slug
-        exit;
-    }
+        	if ( is_user_logged_in() ) {
+            		$this->redirect_logged_in_user();
+            		exit;
+        	}
+        	wp_redirect( home_url( 'password-lost' ) ); // change to your custom password lost page slug
+        	exit;
+    	}
 });
 
 /*** Redirect default wp-login.php?action=rp&key=xxxxxxxxxxxxx&login=xxxxxxxx to custom password reset page ***/
 add_action( 'login_form_rp', 'redirect_to_custom_password_reset' );
 add_action( 'login_form_resetpass', 'redirect_to_custom_password_reset' );
 function redirect_to_custom_password_reset() {
-    if ( 'GET' == $_SERVER['REQUEST_METHOD'] ) {
-        // Verify key / login combo 
-        $user = check_password_reset_key( $_REQUEST['key'], $_REQUEST['login'] );
-        if ( ! $user || is_wp_error( $user ) ) {
-            if ( $user && $user->get_error_code() === 'expired_key' ) {
-                wp_redirect( home_url( 'sign-in?login=expiredkey' ) ); // change to your custom login page slug
-            } else {
-                wp_redirect( home_url( 'sign-in?login=invalidkey' ) ); // change to your custom login page slug
-            }
-            exit;
-        }
-        $redirect_url = home_url( 'password-reset' ); // change to your custom password reset page slug
-        $redirect_url = add_query_arg( 'login', esc_attr( $_REQUEST['login'] ), $redirect_url );
-        $redirect_url = add_query_arg( 'key', esc_attr( $_REQUEST['key'] ), $redirect_url );
-        wp_redirect( $redirect_url );
-        exit;
-    }
+	if ( 'GET' == $_SERVER['REQUEST_METHOD'] ) {
+        	// Verify key / login combo 
+        	$user = check_password_reset_key( $_REQUEST['key'], $_REQUEST['login'] );
+		
+        	if ( ! $user || is_wp_error( $user ) ) {
+            		if ( $user && $user->get_error_code() === 'expired_key' ) {
+                		wp_redirect( home_url( 'sign-in?login=expiredkey' ) ); // change to your custom login page slug
+            		} else {
+                		wp_redirect( home_url( 'sign-in?login=invalidkey' ) ); // change to your custom login page slug
+            		}
+            		exit;
+        	}
+		
+        	$redirect_url = home_url( 'password-reset' ); // change to your custom password reset page slug
+        	$redirect_url = add_query_arg( 'login', esc_attr( $_REQUEST['login'] ), $redirect_url );
+        	$redirect_url = add_query_arg( 'key', esc_attr( $_REQUEST['key'] ), $redirect_url );
+        	wp_redirect( $redirect_url );
+        	exit;
+    	}
 }
 
 /*** Redirect logged in user to respective page base on user role ***/
 function redirect_logged_in_user( $redirect_to = null ) {
-    $user = wp_get_current_user();
-    if ( user_can( $user, 'manage_options' ) ) {
-        if ( $redirect_to ) {
-            wp_safe_redirect( $redirect_to );
-        } else {
-            wp_redirect( admin_url() );
-        }
-    } else {
-        wp_redirect( home_url( 'account' ) ); // change to your custom account page slug
-    }
+	$user = wp_get_current_user();
+    	if ( user_can( $user, 'manage_options' ) ) {
+        	if ( $redirect_to ) {
+         		wp_safe_redirect( $redirect_to );
+        	} else {
+            		wp_redirect( admin_url() );
+        	}
+    	} else {
+        	wp_redirect( home_url( 'account' ) ); // change to your custom account page slug
+		exit;
+    	}
 }
 
 /*** Redirect default after logout to home page ***/ 
 add_action( 'wp_logout', function() {
 	$redirect_url = home_url();
-    wp_safe_redirect( $redirect_url );
-    exit;
+    	wp_safe_redirect( $redirect_url );
+    	exit;
 });
 
 /*** Registration form password match, email domain blacklist validation ***/
@@ -172,14 +175,11 @@ function custom_password_lost_request($form) {
 		);	
 		
 	} else {
-		$redirect_url = home_url( 'password-lost' ); // change to your custom password lost page slug
-    		$redirect_url = add_query_arg( 'errors', 'invalid_email', $redirect_url );
-
 		$form->set_result(
 			[
 				'action'        => 'request_password_reset_error',
 				'type'          => 'error',
-				'message' 		  => esc_html__('Invalid Email Address. Make sure you fill in your registered email address correctly.', 'bricks'),
+				'message' 	=> esc_html__('Invalid Email Address. Make sure you fill in your registered email address correctly.', 'bricks'),
 			]
 		);
 	} 
