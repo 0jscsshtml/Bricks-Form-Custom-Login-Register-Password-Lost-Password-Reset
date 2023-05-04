@@ -214,19 +214,21 @@ function do_password_reset($form) {
 				[
 					'action'          => 'password_resetted_error',
 					'type'            => 'error',
-					'message' 		  => esc_html__('Password mismatch! Please try again.', 'bricks'),
+					'message' 	  => esc_html__('Password mismatch! Please try again.', 'bricks'),
 				]
 			);
 		}
 		if ( $formPwd == $form->get_field_value( 'fcnevh' ) ) { // change to your password reset form second password field ID
 			// Passwords don't meet minimum requirement
-			$form->set_result(
-				[
-					'action'          => 'password_resetted_error',
-					'type'            => 'error',
-					'message' 		  => esc_html__('Empty password! Please try again.', 'bricks'),
-				]
-			);
+			if (!preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#", $formPwd)) {
+				$form->set_result(
+					[
+						'action'          => 'password_resetted_error',
+						'type'            => 'error',
+						'message' 	  => esc_html__('Password must minimum of 8 charaters, contain at least 1 number, contain at least one uppercase character, contain at least one lowercase character, contain at least one special character', 'bricks'),
+					]
+				);
+			}
 		}
 		// Parameter checks OK, reset password 
 		reset_password( $user, $formPwd );
