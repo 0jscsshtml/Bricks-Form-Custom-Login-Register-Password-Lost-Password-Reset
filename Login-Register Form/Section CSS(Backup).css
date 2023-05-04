@@ -1,0 +1,40 @@
+root .underline-link {
+  	color: blue;
+  	text-decoration: underline;
+}
+root .tabtitle-wrapper:before {
+	left: 3px;
+}
+root .tabtitle-wrapper.tab-register:before {
+	left: 78px;
+}
+root .login-form ul > li {
+	display: flex;
+}
+
+root .login-form .message.success, root .login-form .message.error, root .register-form .message.success, root .register-form .message.error {
+	background-color: transparent;
+}
+
+root .login-form .message.success .text, root .login-form .message.error .text, root .register-form .message.success .text, root .register-form .message.error .text {
+	padding: 6px 12px;
+	border-radius: 4px;
+	color: #fff;
+  	font-size: 14px;
+  	font-weight: 400;
+  	line-height: 1.5;
+}
+root .login-form .message.success .text, root .register-form .message.success .text {
+	background-color: #11b76b;
+}
+root .login-form .message.error .text, root .register-form .message.error .text {
+	background-color: #fa4362;
+}
+
+root .register-form .form-group:nth-child(5) {
+ 	margin-right: 4%;
+}
+
+root .login-form-pane .brxe-text-basic span.underline-link, root .register-form-pane .brxe-text-basic span.underline-link {
+  	cursor: pointer;
+}
