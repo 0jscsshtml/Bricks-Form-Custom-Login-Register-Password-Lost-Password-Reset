@@ -208,13 +208,8 @@ function do_password_reset($form) {
 		}
 	}
 	if ( !empty( $formPwd ) ) { 
-		if ( $formPwd ) != $form->get_field_value( 'fcnevh' ) ) { // change to your password reset second password field ID
+		if ( $formPwd != $form->get_field_value( 'fcnevh' ) ) { // change to your password reset form second password field ID
 			// Passwords don't match 
-			$redirect_url = home_url( 'password-reset' ); // change to your custom password reset page slug
-			$redirect_url = add_query_arg( 'key', $rp_key, $redirect_url );
-			$redirect_url = add_query_arg( 'login', $rp_login, $redirect_url );
-			$redirect_url = add_query_arg( 'error', 'password_reset_mismatch', $redirect_url );
-			
 			$form->set_result(
 				[
 					'action'          => 'password_resetted_error',
@@ -223,13 +218,8 @@ function do_password_reset($form) {
 				]
 			);
 		}
-		if ( empty( $formPwd ) ) {
-			// Password is empty 
-			$redirect_url = home_url( 'password-reset' ); // change to your custom password reset page slug
-			$redirect_url = add_query_arg( 'key', $rp_key, $redirect_url );
-			$redirect_url = add_query_arg( 'login', $rp_login, $redirect_url );
-			$redirect_url = add_query_arg( 'error', 'password_reset_empty', $redirect_url );
-			
+		if ( $formPwd == $form->get_field_value( 'fcnevh' ) ) { // change to your password reset form second password field ID
+			// Passwords don't meet minimum requirement
 			$form->set_result(
 				[
 					'action'          => 'password_resetted_error',
