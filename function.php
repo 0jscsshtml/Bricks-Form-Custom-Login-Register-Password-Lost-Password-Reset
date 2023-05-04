@@ -110,7 +110,7 @@ add_filter( 'bricks/form/validate', function( $errors, $form ) {
 	} else {
 		$errors[] = esc_html__( 'Password mismatch. Please try again.', 'bricks' );
 	}
-	
+	/**** optional to validate blacklist email domain 
 	$blacklist = [
     		'@gmail.com',
     		'@yahoo.com',
@@ -121,7 +121,7 @@ add_filter( 'bricks/form/validate', function( $errors, $form ) {
         		$errors[] = esc_html__( 'Please use your business email domain to register.', 'bricks' );
     		}
 	}
-
+	****/	
 	return $errors;
 }, 10, 2);
 
