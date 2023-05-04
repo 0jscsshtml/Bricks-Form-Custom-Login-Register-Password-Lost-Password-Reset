@@ -1,4 +1,7 @@
 <?php
+/******** Copy all start from line 6 to Bricks Child Theme function.php******/
+/******** Any error, just delete the code inserted, your wordpress will back to default ******/
+
 
 /*** Redirect default wp-login.php to custom login page ***/
 add_action( 'login_form_login', function() {
