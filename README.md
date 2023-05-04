@@ -8,7 +8,9 @@
 #3 Copy all the code in function.php to Bricks Child theme function.php. Im not suggest to use WPCode or other code snippets plugin. If you lock out from dashboard, you still can access the function.php file and remove all the code inserted to get back to your dashboard.
   - Change all commented fields accordingly.
 
-#4 Still lack of login remember me functionailty
+#4 Not tested:
+  - Lack of login remember me functionailty.
+  - WooCommerce
 
 #5 Test Environment
   - Wordpress v6.2
