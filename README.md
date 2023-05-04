@@ -5,5 +5,5 @@
 
 #2 Import each form section template and assign to page respectively
 
-# Copy all the code in function.php to Bricks Child theme function.php. Im not suggest to use WPCode or other code snippets plugin. If you lock out from dashboard, you still can access the function.php file and remove all the code inserted to get back to your dashboard.
+#3 Copy all the code in function.php to Bricks Child theme function.php. Im not suggest to use WPCode or other code snippets plugin. If you lock out from dashboard, you still can access the function.php file and remove all the code inserted to get back to your dashboard.
   - Change all form IDs and field IDs according to your form & field IDs.  
