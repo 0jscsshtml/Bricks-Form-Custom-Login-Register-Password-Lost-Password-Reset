@@ -230,25 +230,25 @@ function do_password_reset($form) {
 						'message' 	  => esc_html__('Password must minimum of 8 charaters, contain at least 1 number, contain at least one uppercase character, contain at least one lowercase character, contain at least one special character', 'bricks'),
 					]
 				);
-			}
+			} else {
 			
-			// Parameter checks OK, reset password 
-			reset_password( $user, $formPwd );
+				// Parameter checks OK, reset password 
+				reset_password( $user, $formPwd );
 
-    			$to = $user->user_email;
-			$from = 'support@weblab.com'; // change to your email address
-			$subject = 'Password Changed'; // change to your prefer subject
+    				$to = $user->user_email;
+				$from = 'support@weblab.com'; // change to your email address
+				$subject = 'Password Changed'; // change to your prefer subject
 	
-	  		$message  = __('You had successfully change your Weblab account password.') . "\r\n\r\n";
-	  		$message .= __('New password: ' . $formPwd . '') . "\r\n\r\n";
-	  		$message .= __( 'Thanks!' ) . "\r\n";
+	  			$message  = __('You had successfully change your Weblab account password.') . "\r\n\r\n";
+	  			$message .= __('New password: ' . $formPwd . '') . "\r\n\r\n";
+	  			$message .= __( 'Thanks!' ) . "\r\n";
 			
-	  		$headers[] = 'From: Support <'.$from.'>';
-	  		$headers[] = 'Reply-to: '. $from;
+	  			$headers[] = 'From: Support <'.$from.'>';
+	  			$headers[] = 'Reply-to: '. $from;
 		
-	  		$result = wp_mail( $to, $subject, $message, $headers );
+	  			$result = wp_mail( $to, $subject, $message, $headers );
+			}
 		}
-
 	} else {
 		$form->set_result(
 			[
