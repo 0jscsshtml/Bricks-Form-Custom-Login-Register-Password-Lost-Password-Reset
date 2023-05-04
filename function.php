@@ -254,21 +254,6 @@ function do_password_reset($form) {
 		
 	  	$result = wp_mail( $to, $subject, $message, $headers );
 
-		$redirect_url = home_url( 'sign-in?password=changed' ); // change to your custom login page slug
-			
-		$form->set_result(
-			[
-				'action'          => 'password_resetted_redirect',
-				'type'            => 'redirect',
-				'redirectTo'      => $redirect_url,
-				'redirectTimeout' => 5000,
-			],
-			[
-				'action'          => 'password_resetted_success',
-				'type'            => 'success',
-				'message' 		    => esc_html__('Password reset request submitted successfully. Please check your email and follow the instruction to reset your password. You will be redirect back to login page in 5s.', 'bricks'),
-			]
-		);
 	} else {
 		$form->set_result(
 			[
