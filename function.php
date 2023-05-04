@@ -141,6 +141,7 @@ function custom_password_lost_request($form) {
 		$user = get_user_by( 'email', $formEmail );
 		$username = $user->user_login;
 		$resetpasskey = get_password_reset_key(get_user_by('email', $formEmail )); 
+		
 		$to = $formEmail;
 		$from = 'support@weblab.com'; // change to your email address
 		$subject = 'Password Reset'; // change to your prefer subject
@@ -169,6 +170,7 @@ function custom_password_lost_request($form) {
 				'redirectTimeout' => 5000, // change to your prefer time delay for redirect
 			],
 		);	
+		
 	} else {
 		$redirect_url = home_url( 'password-lost' ); // change to your custom password lost page slug
     		$redirect_url = add_query_arg( 'errors', 'invalid_email', $redirect_url );
@@ -218,8 +220,7 @@ function do_password_reset($form) {
 					'message' 	  => esc_html__('Password mismatch! Please try again.', 'bricks'),
 				]
 			);
-		}
-		if ( $formPwd == $form->get_field_value( 'fcnevh' ) ) { // change to your password reset form second password field ID
+		} else if ( $formPwd == $form->get_field_value( 'fcnevh' ) ) { // change to your password reset form second password field ID
 			// Passwords don't meet minimum requirement
 			if (!preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#", $formPwd)) {
 				$form->set_result(
@@ -230,22 +231,23 @@ function do_password_reset($form) {
 					]
 				);
 			}
-		}
-		// Parameter checks OK, reset password 
-		reset_password( $user, $formPwd );
+			
+			// Parameter checks OK, reset password 
+			reset_password( $user, $formPwd );
 
-    		$to = $user->user_email;
-		$from = 'support@weblab.com'; // change to your email address
-		$subject = 'Password Changed'; // change to your prefer subject
+    			$to = $user->user_email;
+			$from = 'support@weblab.com'; // change to your email address
+			$subject = 'Password Changed'; // change to your prefer subject
 	
-	  	$message  = __('You had successfully change your Weblab account password.') . "\r\n\r\n";
-	  	$message .= __('New password: ' . $formPwd . '') . "\r\n\r\n";
-	  	$message .= __( 'Thanks!' ) . "\r\n";
+	  		$message  = __('You had successfully change your Weblab account password.') . "\r\n\r\n";
+	  		$message .= __('New password: ' . $formPwd . '') . "\r\n\r\n";
+	  		$message .= __( 'Thanks!' ) . "\r\n";
+			
+	  		$headers[] = 'From: Support <'.$from.'>';
+	  		$headers[] = 'Reply-to: '. $from;
 		
-	  	$headers[] = 'From: Support <'.$from.'>';
-	  	$headers[] = 'Reply-to: '. $from;
-		
-	  	$result = wp_mail( $to, $subject, $message, $headers );
+	  		$result = wp_mail( $to, $subject, $message, $headers );
+		}
 
 	} else {
 		$form->set_result(
