@@ -27,7 +27,7 @@ add_action( 'login_form_login', function() {
 add_action( 'login_form_register', function() {
 	if ( 'GET' == $_SERVER['REQUEST_METHOD'] ) {
         	if ( is_user_logged_in() ) {
-            		$this->redirect_logged_in_user();
+            		redirect_logged_in_user();
         	} else {
             		wp_redirect( home_url( 'sign-in' ) ); // change to your custom register page slug
         	}
@@ -39,7 +39,7 @@ add_action( 'login_form_register', function() {
 add_action( 'login_form_lostpassword', function() {
 	if ( 'GET' == $_SERVER['REQUEST_METHOD'] ) {
         	if ( is_user_logged_in() ) {
-            		$this->redirect_logged_in_user();
+            		redirect_logged_in_user();
             		exit;
         	}
         	wp_redirect( home_url( 'password-lost' ) ); // change to your custom password lost page slug
@@ -162,7 +162,7 @@ function custom_password_lost_request($form) {
 		$resetpasskey = get_password_reset_key(get_user_by('email', $formEmail )); 
 		
 		$to = $formEmail;
-		$from = 'support@weblab.com'; // change to your email address
+		$from = 'support@domain.com'; // change to your email address
 		$subject = 'Password Reset'; // change to your prefer subject
 		
 		$message  = __('Someone has requested a password reset for the following account:') . "\r\n\r\n";
@@ -252,7 +252,7 @@ function do_password_reset($form) {
 				reset_password( $user, $formPwd );
 
     				$to = $user->user_email;
-				$from = 'support@weblab.com'; // change to your email address
+				$from = 'support@domain.com'; // change to your email address
 				$subject = 'Password Changed'; // change to your prefer subject
 	
 	  			$message  = __('You had successfully change your Weblab account password.') . "\r\n\r\n";
