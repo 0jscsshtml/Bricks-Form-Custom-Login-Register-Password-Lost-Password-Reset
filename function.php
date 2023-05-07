@@ -150,9 +150,9 @@ add_action( 'bricks/form/custom_action', 'custom_password_lost_request', 10, 1 )
 function custom_password_lost_request($form) {
 	$fields = $form->get_fields();
 	$formId = $fields['formId'];
-	$formEmail = $form->get_field_value( '15c7e8' ); // change to your password lost form email field ID
+	$formEmail = $form->get_field_value( '33ac0d' ); // change to your password lost form email field ID
 	
-	if ( $formId !== 'hozfnt' ) { // change to your password lost form ID
+	if ( $formId !== 'uxrwnz' ) { // change to your password lost form ID
 		return;
 	}
 	
@@ -166,7 +166,7 @@ function custom_password_lost_request($form) {
 		$subject = 'Password Reset'; // change to your prefer subject
 		
 		$message  = __('Someone has requested a password reset for the following account:') . "\r\n\r\n";
-		$message .= __('Site Name: Weblab') . "\r\n\r\n";
+		$message .= __('Site Name: Any') . "\r\n\r\n"; // change to your Site Name
 		$message .= __('Username: ' . $username . '') . "\r\n\r\n";
 		$message .= __('If this was a mistake, ignore this email and nothing will happen.') . "\r\n\r\n";
 		$message .= __('To reset your password, visit the following address:') . "\r\n\r\n";
