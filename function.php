@@ -88,7 +88,6 @@ function redirect_logged_in_user( $redirect_to = null ) {
 }
 
 /*** logout without confirmation and redirect***/
-/****
 add_action('check_admin_referer', 'logout_without_confirm', 10, 2);
 function logout_without_confirm($action, $result) {
     if ($action == "log-out" && !isset($_GET['_wpnonce'])) {
@@ -98,14 +97,15 @@ function logout_without_confirm($action, $result) {
         die;
     }
 }
-******/
 
-/****** redirect after logout ******/
+/****** redirect after logout to default wordpress logout confirmation page ******/
+/*********
 add_action( 'wp_logout', function() {
 	$redirect_url = home_url( 'sign-in?logged_out=true' ); //change to your custom login page slug
     	wp_safe_redirect( $redirect_url );
     	exit;
 });
+********/
 
 /*** Registration form password match, email domain blacklist validation ***/
 add_filter( 'bricks/form/validate', function( $errors, $form ) {
