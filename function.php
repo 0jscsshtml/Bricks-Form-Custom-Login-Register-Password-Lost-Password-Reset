@@ -207,14 +207,14 @@ add_action( 'bricks/form/custom_action', 'do_password_reset', 10, 1 );
 function do_password_reset($form) {
 	$fields = $form->get_fields();
 	$formId = $fields['formId'];
-	$formPwd = $form->get_field_value( 'picqsb' ); // change to your password reset form first password field ID
+	$formPwd = $form->get_field_value( '2a4170' ); // change to your password reset form first password field ID
 	
-	if ( $formId !== 'nhqlpu' ) { // change to your password reset form ID
+	if ( $formId !== 'viuilm' ) { // change to your password reset form ID
 		return;
 	}
 		
-	$rp_key = $form->get_field_value( 'kxdnwo' ); // change to your password reset form hidden reset key field ID
-	$rp_login = $form->get_field_value( 'dmherx' ); // change to your password reset form hidden login field ID
+	$rp_key = $form->get_field_value( 'evilvc' ); // change to your password reset form hidden reset key field ID
+	$rp_login = $form->get_field_value( 'ujmqee' ); // change to your password reset form hidden login field ID
 	$user = check_password_reset_key( $rp_key, $rp_login );
 		
 	if ( ! $user || is_wp_error( $user ) ) {
@@ -227,7 +227,7 @@ function do_password_reset($form) {
 	}
 	
 	if ( !empty( $formPwd ) ) { 
-		if ( $formPwd != $form->get_field_value( 'fcnevh' ) ) { // change to your password reset form second password field ID
+		if ( $formPwd != $form->get_field_value( 'pfktcj' ) ) { // change to your password reset form second password field ID
 			// Passwords don't match 
 			$form->set_result(
 				[
@@ -236,7 +236,7 @@ function do_password_reset($form) {
 					'message' 	  => esc_html__('Password mismatch! Please try again.', 'bricks'),
 				]
 			);
-		} else if ( $formPwd == $form->get_field_value( 'fcnevh' ) ) { // change to your password reset form second password field ID
+		} else if ( $formPwd == $form->get_field_value( 'pfktcj' ) ) { // change to your password reset form second password field ID
 			// Passwords don't meet minimum requirement
 			if (!preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#", $formPwd)) {
 				$form->set_result(
