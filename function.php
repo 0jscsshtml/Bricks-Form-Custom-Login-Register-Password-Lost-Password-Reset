@@ -107,7 +107,7 @@ add_action( 'wp_logout', function() {
 });
 ********/
 
-/*** Registration form password match, email domain blacklist validation ***/
+/*** Registration form password match, password requirement, email domain blacklist validation ***/
 add_filter( 'bricks/form/validate', function( $errors, $form ) {
 	$form_settings = $form->get_settings();
   	$form_fields   = $form->get_fields();
@@ -116,13 +116,14 @@ add_filter( 'bricks/form/validate', function( $errors, $form ) {
 	$form_pwd_1    = $form->get_field_value( 'opesmf' ); // change to your registeration form password field ID
 	$form_pwd_2    = $form->get_field_value( 'jgdfeb' ); // change to your registeration form confirm password field ID
 	
-	// Skip validation: Form ID is not 'kfbqso'
+	// Skip validation: Form ID is not 'zhddbi'
   	if ( $form_id !== 'zhddbi' ) { // change to your registeration form ID
     		// Early return the $errors array if it's not target form
     		return $errors;
   	}
 	
 	if ( $form_pwd_1 == $form_pwd_2 ) {
+		// Password Minimum Requirement Validation
 		if (!preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#", $form_pwd_1)) {
 			$errors[] = esc_html__( 'Password must minimum of 8 charaters, contain at least 1 number, contain at least one uppercase character, contain at least one lowercase character, contain at least one special character', 'bricks' );
 		}
