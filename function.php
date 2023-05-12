@@ -1,50 +1,50 @@
 <?php
-/******** Copy all start from line 6 to Bricks Child Theme function.php******/
-/******** Any error, just delete the code inserted, your wordpress will back to default ******/
+/******** Copy all start from line 6 to Bricks Child Theme function.php ******/
+/******** Any error, just delete the code inserted, your wordpress will revert back to default ******/
 
 
 /*** Redirect default wp-login.php to custom login page ***/
 add_action( 'login_form_login', function() {
 	if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
-        	$redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : null;
+        $redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : null;
     
-        	if ( is_user_logged_in() ) {
-            		redirect_logged_in_user( $redirect_to );
-            		exit;
-        	}
-
-        	// The rest are redirected to the login page 
-        	$login_url = home_url( 'sign-in' ); // change to your custom login page slug
-        	if ( ! empty( $redirect_to ) ) {
-            		$login_url = add_query_arg( 'redirect_to', $redirect_to, $login_url );
-        	}
-        	wp_redirect( $login_url );
+       	if ( is_user_logged_in() ) {
+        	redirect_logged_in_user( $redirect_to );
         	exit;
-    	}
+       	}
+
+        // The rest are redirected to the login page 
+        $login_url = home_url( 'sign-in' ); // change to your custom login page slug
+        if ( ! empty( $redirect_to ) ) {
+        	$login_url = add_query_arg( 'redirect_to', $redirect_to, $login_url );
+        }
+        wp_redirect( $login_url );
+        exit;
+    }
 });
 
 /*** Redirect default wp-login.php?action=register to custom register page ***/
 add_action( 'login_form_register', function() {
 	if ( 'GET' == $_SERVER['REQUEST_METHOD'] ) {
-        	if ( is_user_logged_in() ) {
-            		redirect_logged_in_user();
-        	} else {
-            		wp_redirect( home_url( 'sign-in' ) ); // change to your custom register page slug
-        	}
-        	exit;
-    	}
+       	if ( is_user_logged_in() ) {
+       		redirect_logged_in_user();
+       	} else {
+       		wp_redirect( home_url( 'sign-in' ) ); // change to your custom register page slug
+       	}
+       	exit;
+    }
 });
 
 /*** Redirect default wp-login.php?action=lostpassword to custom password lost page ***/
 add_action( 'login_form_lostpassword', function() {
 	if ( 'GET' == $_SERVER['REQUEST_METHOD'] ) {
-        	if ( is_user_logged_in() ) {
-            		redirect_logged_in_user();
-            		exit;
-        	}
-        	wp_redirect( home_url( 'password-lost' ) ); // change to your custom password lost page slug
-        	exit;
-    	}
+       	if ( is_user_logged_in() ) {
+       		redirect_logged_in_user();
+       		exit;
+       	}
+       	wp_redirect( home_url( 'password-lost' ) ); // change to your custom password lost page slug
+       	exit;
+    }
 });
 
 /*** Redirect default wp-login.php?action=rp&key=xxxxxxxxxxxxx&login=xxxxxxxx to custom password reset page ***/
@@ -52,39 +52,39 @@ add_action( 'login_form_rp', 'redirect_to_custom_password_reset' );
 add_action( 'login_form_resetpass', 'redirect_to_custom_password_reset' );
 function redirect_to_custom_password_reset() {
 	if ( 'GET' == $_SERVER['REQUEST_METHOD'] ) {
-        	// Verify key / login combo 
-        	$user = check_password_reset_key( $_REQUEST['key'], $_REQUEST['login'] );
+       	// Verify key / login combo 
+       	$user = check_password_reset_key( $_REQUEST['key'], $_REQUEST['login'] );
 		
-        	if ( ! $user || is_wp_error( $user ) ) {
-            		if ( $user && $user->get_error_code() === 'expired_key' ) {
-                		wp_redirect( home_url( 'sign-in?login=expiredkey' ) ); // change to your custom login page slug
-            		} else {
-                		wp_redirect( home_url( 'sign-in?login=invalidkey' ) ); // change to your custom login page slug
-            		}
-            		exit;
-        	}
+       	if ( ! $user || is_wp_error( $user ) ) {
+       		if ( $user && $user->get_error_code() === 'expired_key' ) {
+           		wp_redirect( home_url( 'sign-in?login=expiredkey' ) ); // change to your custom login page slug
+       		} else {
+           		wp_redirect( home_url( 'sign-in?login=invalidkey' ) ); // change to your custom login page slug
+       		}
+       		exit;
+       	}
 		
-        	$redirect_url = home_url( 'password-reset' ); // change to your custom password reset page slug
-        	$redirect_url = add_query_arg( 'login', esc_attr( $_REQUEST['login'] ), $redirect_url );
-        	$redirect_url = add_query_arg( 'key', esc_attr( $_REQUEST['key'] ), $redirect_url );
-        	wp_redirect( $redirect_url );
-        	exit;
-    	}
+       	$redirect_url = home_url( 'password-reset' ); // change to your custom password reset page slug
+       	$redirect_url = add_query_arg( 'login', esc_attr( $_REQUEST['login'] ), $redirect_url );
+       	$redirect_url = add_query_arg( 'key', esc_attr( $_REQUEST['key'] ), $redirect_url );
+       	wp_redirect( $redirect_url );
+       	exit;
+    }
 }
 
 /*** Redirect logged in user to respective page base on user role ***/
 function redirect_logged_in_user( $redirect_to = null ) {
 	$user = wp_get_current_user();
-    	if ( user_can( $user, 'manage_options' ) ) {
-        	if ( $redirect_to ) {
-         		wp_safe_redirect( $redirect_to );
-        	} else {
-            		wp_redirect( admin_url() );
-        	}
-    	} else {
-        	wp_redirect( home_url( 'account' ) ); // change to your custom account page slug
-		exit;
-    	}
+    if ( user_can( $user, 'manage_options' ) ) {
+       	if ( $redirect_to ) {
+       		wp_safe_redirect( $redirect_to );
+       	} else {
+       		wp_redirect( admin_url() );
+       	}
+    } else {
+       	wp_redirect( home_url( 'account' ) ); // change to your custom account page slug
+	exit;
+    }
 }
 
 /*** logout without confirmation and redirect***/
@@ -98,7 +98,7 @@ function logout_without_confirm($action, $result) {
     }
 }
 
-/****** redirect after logout to default wordpress logout confirmation page ******/
+/****** redirect after default wordpress logout confirmation page ******/
 /*********
 add_action( 'wp_logout', function() {
 	$redirect_url = home_url( 'sign-in?logged_out=true' ); //change to your custom login page slug
@@ -130,6 +130,7 @@ add_filter( 'bricks/form/validate', function( $errors, $form ) {
 	} else {
 		$errors[] = esc_html__( 'Password mismatch. Please try again.', 'bricks' );
 	}
+	
 	/**** optional to validate blacklist email domain 
 	$blacklist = [
     		'@gmail.com',
@@ -141,7 +142,8 @@ add_filter( 'bricks/form/validate', function( $errors, $form ) {
         		$errors[] = esc_html__( 'Please use your business email domain to register.', 'bricks' );
     		}
 	}
-	****/	
+	****/
+	
 	return $errors;
 }, 10, 2);
 
@@ -176,20 +178,9 @@ function custom_password_lost_request($form) {
 		
 		$headers[] = 'From: Support <'.$from.'>';
 		$headers[] = 'Reply-to: '. $from;
+		//$headers[] ='Content-Type: text/html; charset=UTF-8';  
 		
-		$result = wp_mail( $to, $subject, $message, $headers );
-		
-    		$redirect_url = home_url( 'sign-in' ); // change to your custom login page slug
-   		$redirect_url = add_query_arg( 'checkemail', 'confirm', $redirect_url );
-        
-		$form->set_result(
-			[
-				'action'          => 'request_password_reset_redirect',
-				'type'            => 'redirect',
-				'redirectTo'      => $redirect_url,
-				'redirectTimeout' => 5000, // change to your prefer time delay for redirect
-			],
-		);	
+		$result = wp_mail( $to, $subject, $message, $headers );	
 		
 	} else {
 		$form->set_result(
@@ -227,52 +218,44 @@ function do_password_reset($form) {
 		exit;
 	}
 	
-	if ( !empty( $formPwd ) ) { 
-		if ( $formPwd != $form->get_field_value( 'pfktcj' ) ) { // change to your password reset form second password field ID
-			// Passwords don't match 
-			$form->set_result(
-				[
-					'action'          => 'password_resetted_error',
-					'type'            => 'error',
-					'message' 	  => esc_html__('Password mismatch! Please try again.', 'bricks'),
-				]
-			);
-		} else if ( $formPwd == $form->get_field_value( 'pfktcj' ) ) { // change to your password reset form second password field ID
-			// Passwords don't meet minimum requirement
-			if (!preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#", $formPwd)) {
-				$form->set_result(
-					[
-						'action'          => 'password_resetted_error',
-						'type'            => 'error',
-						'message' 	  => esc_html__('Password must minimum of 8 charaters, contain at least 1 number, contain at least one uppercase character, contain at least one lowercase character, contain at least one special character', 'bricks'),
-					]
-				);
-			} else {
-			
-				// Parameter checks OK, reset password 
-				reset_password( $user, $formPwd );
-
-    				$to = $user->user_email;
-				$from = 'support@domain.com'; // change to your email address
-				$subject = 'Password Changed'; // change to your prefer subject
-	
-	  			$message  = __('You had successfully change your Weblab account password.') . "\r\n\r\n";
-	  			$message .= __('New password: ' . $formPwd . '') . "\r\n\r\n";
-	  			$message .= __( 'Thanks!' ) . "\r\n";
-			
-	  			$headers[] = 'From: Support <'.$from.'>';
-	  			$headers[] = 'Reply-to: '. $from;
-		
-	  			$result = wp_mail( $to, $subject, $message, $headers );
-			}
-		}
-	} else {
+	if ( $formPwd != $form->get_field_value( 'pfktcj' ) ) { // change to your password reset form second password field ID
+		// Passwords don't match 
 		$form->set_result(
 			[
 				'action'          => 'password_resetted_error',
 				'type'            => 'error',
-				'message' 	  => esc_html__('Invalid request! Please try again.', 'bricks'),
+				'message' 	  => esc_html__('Password mismatch! Please try again.', 'bricks'),
 			]
 		);
+		
+	} else if ( $formPwd == $form->get_field_value( 'pfktcj' ) ) { // change to your password reset form second password field ID
+		// Passwords don't meet minimum requirement
+		if (!preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#", $formPwd)) {
+			$form->set_result(
+				[
+					'action'          => 'password_resetted_error',
+					'type'            => 'error',
+					'message' 	  => esc_html__('Password must minimum of 8 charaters, contain at least 1 number, contain at least one uppercase character, contain at least one lowercase character, contain at least one special character', 'bricks'),
+				]
+			);
+		} else {
+			
+			// Parameter checks OK, reset password 
+			reset_password( $user, $formPwd );
+
+    		$to = $user->user_email;
+			$from = 'support@domain.com'; // change to your email address
+			$subject = 'Password Changed'; // change to your prefer subject
+	
+			$message  = __('You had successfully change your Weblab account password.') . "\r\n\r\n";
+			$message .= __('New password: ' . $formPwd . '') . "\r\n\r\n";
+			$message .= __( 'Thanks!' ) . "\r\n";
+			
+			$headers[] = 'From: Support <'.$from.'>';
+			$headers[] = 'Reply-to: '. $from;
+		
+			$result = wp_mail( $to, $subject, $message, $headers );
+		};
+
 	}
 }
