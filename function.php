@@ -6,7 +6,7 @@
 /*** Redirect default wp-login.php to custom login page ***/
 add_action( 'login_form_login', function() {
 	if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
-        $redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : null;
+		$redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : null;
     
        	if ( is_user_logged_in() ) {
         	redirect_logged_in_user( $redirect_to );
@@ -76,10 +76,10 @@ function redirect_to_custom_password_reset() {
 function redirect_direct_access( ) {
 	if ( is_page(289) ) { // change to your password reset page ID
 		if ( !array_key_exists('login', $_GET) && !array_key_exists('key', $_GET) && !array_key_exists('bricks', $_GET) ) {
-			wp_redirect( home_url( '' ) ); // change to your prefer redirect url
+			wp_redirect( home_url() ); // change to your prefer redirect url
 			exit();
 		}
-    	}
+    }
 }
 add_action( 'template_redirect', 'redirect_direct_access' );
 
@@ -129,8 +129,8 @@ add_filter( 'bricks/form/validate', function( $errors, $form ) {
 	
 	// Skip validation: Form ID is not 'zhddbi'
   	if ( $form_id !== 'zhddbi' ) { // change to your registeration form ID
-    		// Early return the $errors array if it's not target form
-    		return $errors;
+    	// Early return the $errors array if it's not target form
+    	return $errors;
   	}
 	
 	if ( $form_pwd_1 == $form_pwd_2 ) {
@@ -144,14 +144,14 @@ add_filter( 'bricks/form/validate', function( $errors, $form ) {
 	
 	/**** optional to validate blacklist email domain 
 	$blacklist = [
-    		'@gmail.com',
-    		'@yahoo.com',
+    	'@gmail.com',
+    	'@yahoo.com',
 	];
 	
 	foreach ($blacklist as $blacklist_email) {
-    		if (stripos($form_email, $blacklist_email) !== false) {
-        		$errors[] = esc_html__( 'Please use your business email domain to register.', 'bricks' );
-    		}
+    	if (stripos($form_email, $blacklist_email) !== false) {
+        	$errors[] = esc_html__( 'Please use your business email domain to register.', 'bricks' );
+    	}
 	}
 	****/
 	
@@ -163,36 +163,42 @@ add_action( 'bricks/form/custom_action', 'custom_login_remember', 10, 1 );
 function custom_login_remember($form) {
 	$fields 		= $form->get_fields();
 	$formId 		= $fields['formId'];
-	$formEmail 		= $form->get_field_value( '15c7e8' ); // change to your custom login form email field ID
-	$formPwd		= $form->get_field_value( 'picqsb' ); // change to your custom login form password field ID
-	$formRemember 	= $form->get_field_value( 'eypexk' ); // change to your custom login form remember me field ID
+	$formEmail 		= $form->get_field_value( '15c7e8' );
+	$formPwd		= $form->get_field_value( 'picqsb' );
+	$formRemember 	= $form->get_field_value( 'eypexk' );
+	$user 			= get_user_by( 'email', $formEmail );
+	$username 		= $user->user_login;
 	
-	if ( $formId !== 'insowc' ) { // change to your custom login form ID
+	if ( $formId !== 'insowc' ) { 
 		return;
 	}
 	
-	if ( email_exists( $formEmail ) ) {
-		$user = get_user_by( 'email', $formEmail );
-		$username = $user->user_login;
-		$login_response = wp_signon(
+	if ( !$user ) {
+		$form->set_result(
+			[
+				'action'  => 'login_error',
+				'type'    => 'error',
+				'message' => esc_html__('Invalid Email. Please try again. Fucker', 'bricks'),
+			]
+		);
+	} 
+	if ( $user && !wp_check_password( $formPwd, $user->user_pass, $user->ID ) ) {
+		$form->set_result(
+			[
+				'action'  => 'login_error',
+				'type'    => 'error',
+				'message' => esc_html__('Invalid Password. Please try again. Fucker', 'bricks'),
+			]
+		);
+	}
+	if ( $user && wp_check_password( $formPwd, $user->user_pass, $user->ID ) ) {
+		wp_signon(
 			[
 				'user_login'    => $username,
 				'user_password' => $formPwd,
 				'remember'      => $formRemember,
 			]
 		);
-	}
-	
-	if ( is_wp_error( $login_response ) ) {
-		// Login error
-		$form->set_result(
-			[
-				'action'  => 'login_error',
-				'type'    => 'error',
-				'message' => $login_response->get_error_message(),
-			]
-		);
-		return;
 	}
 
 }
@@ -201,22 +207,22 @@ function custom_login_remember($form) {
 /*** Action to get user password reset link, send email, redirect and error handling ***/
 add_action( 'bricks/form/custom_action', 'custom_password_lost_request', 10, 1 );
 function custom_password_lost_request($form) {
-	$fields = $form->get_fields();
-	$formId = $fields['formId'];
-	$formEmail = $form->get_field_value( '33ac0d' ); // change to your password lost form email field ID
+	$fields 	= $form->get_fields();
+	$formId 	= $fields['formId'];
+	$formEmail 	= $form->get_field_value( '33ac0d' ); // change to your password lost form email field ID
 	
 	if ( $formId !== 'uxrwnz' ) { // change to your password lost form ID
 		return;
 	}
 	
 	if ( email_exists( $formEmail )) { 
-		$user = get_user_by( 'email', $formEmail );
-		$username = $user->user_login;
-		$resetpasskey = get_password_reset_key(get_user_by('email', $formEmail )); 
+		$user 			= get_user_by( 'email', $formEmail );
+		$username 		= $user->user_login;
+		$resetpasskey 	= get_password_reset_key(get_user_by('email', $formEmail )); 
 		
-		$to = $formEmail;
-		$from = 'support@domain.com'; // change to your email address
-		$subject = 'Password Reset'; // change to your prefer subject
+		$to 		= $formEmail;
+		$from 		= 'support@domain.com'; // change to your email address
+		$subject 	= 'Password Reset'; // change to your prefer subject
 		
 		$message  = __('Someone has requested a password reset for the following account:') . "\r\n\r\n";
 		$message .= __('Site Name: Any') . "\r\n\r\n"; // change to your Site Name
@@ -247,17 +253,17 @@ function custom_password_lost_request($form) {
 /*** Action to reset and update user password, send email, redirect, error handling ***/
 add_action( 'bricks/form/custom_action', 'do_password_reset', 10, 1 );
 function do_password_reset($form) {
-	$fields = $form->get_fields();
-	$formId = $fields['formId'];
-	$formPwd = $form->get_field_value( '2a4170' ); // change to your password reset form first password field ID
+	$fields 	= $form->get_fields();
+	$formId 	= $fields['formId'];
+	$formPwd 	= $form->get_field_value( '2a4170' ); // change to your password reset form first password field ID
 	
 	if ( $formId !== 'viuilm' ) { // change to your password reset form ID
 		return;
 	}
 		
-	$rp_key = $form->get_field_value( 'evilvc' ); // change to your password reset form hidden reset key field ID
-	$rp_login = $form->get_field_value( 'ujmqee' ); // change to your password reset form hidden login field ID
-	$user = check_password_reset_key( $rp_key, $rp_login );
+	$rp_key 	= $form->get_field_value( 'evilvc' ); // change to your password reset form hidden reset key field ID
+	$rp_login 	= $form->get_field_value( 'ujmqee' ); // change to your password reset form hidden login field ID
+	$user 		= check_password_reset_key( $rp_key, $rp_login );
 		
 	if ( ! $user || is_wp_error( $user ) ) {
 		if ( $user && $user->get_error_code() === 'expired_key' ) {
@@ -293,9 +299,9 @@ function do_password_reset($form) {
 			// Parameter checks OK, reset password 
 			reset_password( $user, $formPwd );
 
-    		$to = $user->user_email;
-			$from = 'support@domain.com'; // change to your email address
-			$subject = 'Password Changed'; // change to your prefer subject
+    		$to 		= $user->user_email;
+			$from 		= 'support@domain.com'; // change to your email address
+			$subject 	= 'Password Changed'; // change to your prefer subject
 	
 			$message  = __('You had successfully change your Weblab account password.') . "\r\n\r\n";
 			$message .= __('New password: ' . $formPwd . '') . "\r\n\r\n";
