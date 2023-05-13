@@ -158,6 +158,45 @@ add_filter( 'bricks/form/validate', function( $errors, $form ) {
 	return $errors;
 }, 10, 2);
 
+/*** Custom form login action with remember me ***/
+add_action( 'bricks/form/custom_action', 'custom_login_remember', 10, 1 );
+function custom_login_remember($form) {
+	$fields 		= $form->get_fields();
+	$formId 		= $fields['formId'];
+	$formEmail 		= $form->get_field_value( '15c7e8' ); // change to your custom login form email field ID
+	$formPwd		= $form->get_field_value( 'picqsb' ); // change to your custom login form password field ID
+	$formRemember 	= $form->get_field_value( 'eypexk' ); // change to your custom login form remember me field ID
+	
+	if ( $formId !== 'insowc' ) { // change to your custom login form ID
+		return;
+	}
+	
+	if ( email_exists( $formEmail ) ) {
+		$user = get_user_by( 'email', $formEmail );
+		$username = $user->user_login;
+		$login_response = wp_signon(
+			[
+				'user_login'    => $username,
+				'user_password' => $formPwd,
+				'remember'      => $formRemember,
+			]
+		);
+	}
+	
+	if ( is_wp_error( $login_response ) ) {
+		// Login error
+		$form->set_result(
+			[
+				'action'  => 'login_error',
+				'type'    => 'error',
+				'message' => $login_response->get_error_message(),
+			]
+		);
+		return;
+	}
+
+}
+
 /*** Custom form action for custom password lost page ***/
 /*** Action to get user password reset link, send email, redirect and error handling ***/
 add_action( 'bricks/form/custom_action', 'custom_password_lost_request', 10, 1 );
