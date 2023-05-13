@@ -178,7 +178,7 @@ function custom_login_remember($form) {
 			[
 				'action'  => 'login_error',
 				'type'    => 'error',
-				'message' => esc_html__('Invalid Email. Please try again. Fucker', 'bricks'),
+				'message' => esc_html__('Invalid Email. Please try again.', 'bricks'),
 			]
 		);
 	} 
@@ -187,7 +187,7 @@ function custom_login_remember($form) {
 			[
 				'action'  => 'login_error',
 				'type'    => 'error',
-				'message' => esc_html__('Invalid Password. Please try again. Fucker', 'bricks'),
+				'message' => esc_html__('Invalid Password. Please try again.', 'bricks'),
 			]
 		);
 	}
