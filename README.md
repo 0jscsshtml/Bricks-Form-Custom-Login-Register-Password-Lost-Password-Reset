@@ -6,10 +6,10 @@
 #2 Copy all the code in function.php to Bricks Child theme function.php. Im not recommend to use WPCode or other code snippets plugin in this case. If you are locked out from dashboard, you still can access the child theme function.php file via ftp and remove all the code inserted to get back to your dashboard.
   - Please cross check all the fields IDs with your form field IDs.
 
-#4 Not tested:
+#3 Not tested:
   - WooCommerce
 
-#5 Test Environment
+#4 Test Environment
   - Wordpress v6.2
   - Bricks v1.7.3
   - Localwp v6.7.1+6369
