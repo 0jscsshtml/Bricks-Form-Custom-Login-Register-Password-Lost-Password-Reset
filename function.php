@@ -79,7 +79,7 @@ function redirect_direct_access( ) {
 			wp_redirect( home_url( '' ) ); // change to your prefer redirect url
 			exit();
 		}
-    }
+    	}
 }
 add_action( 'template_redirect', 'redirect_direct_access' );
 
