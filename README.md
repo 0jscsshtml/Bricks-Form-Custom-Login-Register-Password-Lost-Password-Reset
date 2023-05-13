@@ -45,6 +45,7 @@
 
 #3 Not tested:
   - WooCommerce
+  - Multisite
 
 #4 Test Environment
   - Wordpress v6.2
