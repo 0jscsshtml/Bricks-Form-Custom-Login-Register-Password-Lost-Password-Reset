@@ -39,10 +39,11 @@
 
 
 # Reminder/Warning
-Copy all the code in function.php to Bricks Child theme function.php. Im not recommend to use WPCode or other code snippets plugin in this case. If you are locked out from dashboard, you still can access to the child theme function.php file via ftp and remove all the code inserted to get back to your dashboard.
+Copy all the code in function.php to Bricks Child theme function.php. Im not recommend to use WPCode or other code snippets plugin in this case. If you are locked out from dashboard, you still can access to the child theme function.php file via ftp and remove all the code inserted to revert back to wordpress default. Please test it on your staging/local before deploy on production.
   - Please cross check all the fields IDs and make sure is match to your form field IDs.
   - Please cross check all the page slug/ID and make sure is match to to your custom form page slug/ID.
   - Change redirect url to your preferred page url.
+  - Change your own form message and email content.
 
 
 #3 Not tested:
