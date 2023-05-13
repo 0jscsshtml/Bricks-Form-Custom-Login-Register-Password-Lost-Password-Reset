@@ -40,10 +40,10 @@
 
 # Reminder/Warning
 Copy all the code in function.php to Bricks Child theme function.php. Im not recommend to use WPCode or other code snippets plugin in this case. If you are locked out from dashboard, you still can access to the child theme function.php file via ftp and remove all the code inserted to get back to your dashboard.
-  - Please cross check all the fields IDs with your form field IDs.
-  - Please cross check all the page slug/ID with your custom form page slug/ID.
-  - Change to your redirect url.
-  - 
+  - Please cross check all the fields IDs and make sure is match to your form field IDs.
+  - Please cross check all the page slug/ID and make sure is match to to your custom form page slug/ID.
+  - Change redirect url to your preferred page url.
+
 
 #3 Not tested:
   - WooCommerce
