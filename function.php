@@ -75,7 +75,7 @@ function redirect_to_custom_password_reset() {
 /*** Redirect direct access to password reset page ***/
 function redirect_direct_access( ) {
 	if ( is_page(289) ) { // change to your password reset page ID
-		if ( !array_key_exists('login', $_GET) && !array_key_exists('key', $_GET) ) {
+		if ( !array_key_exists('login', $_GET) && !array_key_exists('key', $_GET) && !array_key_exists('bricks', $_GET) ) {
 			wp_redirect( home_url( '' ) ); // change to your prefer redirect url
 			exit();
 		}
