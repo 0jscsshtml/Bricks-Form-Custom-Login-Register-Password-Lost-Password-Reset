@@ -72,7 +72,7 @@ function redirect_to_custom_password_reset() {
     }
 }
 
-/*** Redirect direct access to password lost and password reset page ***/
+/*** Redirect direct access to password reset page ***/
 function redirect_direct_access( ) {
 	if ( is_page(289) ) { // change to your password reset page ID
 		if ( !array_key_exists('login', $_GET) && !array_key_exists('key', $_GET) && !array_key_exists('bricks', $_GET) ) {
@@ -80,20 +80,6 @@ function redirect_direct_access( ) {
 			exit();
 		}
     	}
-	if ( is_page(265) ) { // change to your password lost page ID
-		$url = home_url( 'sign-in/' ); // change to your custom login page slug
-		if (isset($_SERVER['HTTP_REFERER'])) {
-			$refURL = $_SERVER['HTTP_REFERER'];
-		} else {
-			wp_redirect( home_url( 'sign-in') ); // change to your custom login page slug
-			exit();
-		}
-		
-		if ( $url !== $refURL ) {
-			wp_redirect( home_url( 'sign-in') ); // change to your custom login page slug
-			exit();
-		}
-	}
 }
 add_action( 'template_redirect', 'redirect_direct_access' );
 
