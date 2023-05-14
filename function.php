@@ -169,7 +169,7 @@ function custom_login_remember($form) {
 	$user 			= get_user_by( 'email', $formEmail );
 	$username 		= $user->user_login;
 	
-	if ( $formId !== 'insowc' ) { 
+	if ( $formId !== 'insowc' ) { // change to your login form ID
 		return;
 	}
 	
