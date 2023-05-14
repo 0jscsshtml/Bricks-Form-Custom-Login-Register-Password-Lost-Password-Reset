@@ -161,13 +161,13 @@ add_filter( 'bricks/form/validate', function( $errors, $form ) {
 /*** Custom form login action with remember me ***/
 add_action( 'bricks/form/custom_action', 'custom_login_remember', 10, 1 );
 function custom_login_remember($form) {
-	$fields 		= $form->get_fields();
-	$formId 		= $fields['formId'];
-	$formEmail 		= $form->get_field_value( '15c7e8' );
-	$formPwd		= $form->get_field_value( 'picqsb' );
-	$formRemember 	= $form->get_field_value( 'eypexk' );
-	$user 			= get_user_by( 'email', $formEmail );
-	$username 		= $user->user_login;
+	$fields 	= $form->get_fields();
+	$formId 	= $fields['formId'];
+	$formEmail 	= $form->get_field_value( '15c7e8' ); // change to your login form email field ID
+	$formPwd	= $form->get_field_value( 'picqsb' ); // change to your login form password field ID
+	$formRemember 	= $form->get_field_value( 'eypexk' ); // change to your login form remember me field ID
+	$user 		= get_user_by( 'email', $formEmail );
+	$username 	= $user->user_login;
 	
 	if ( $formId !== 'insowc' ) { // change to your login form ID
 		return;
@@ -216,8 +216,8 @@ function custom_password_lost_request($form) {
 	}
 	
 	if ( email_exists( $formEmail )) { 
-		$user 			= get_user_by( 'email', $formEmail );
-		$username 		= $user->user_login;
+		$user 		= get_user_by( 'email', $formEmail );
+		$username 	= $user->user_login;
 		$resetpasskey 	= get_password_reset_key(get_user_by('email', $formEmail )); 
 		
 		$to 		= $formEmail;
@@ -299,10 +299,11 @@ function do_password_reset($form) {
 			// Parameter checks OK, reset password 
 			reset_password( $user, $formPwd );
 
-    		$to 		= $user->user_email;
+    			$to 		= $user->user_email;
 			$from 		= 'support@domain.com'; // change to your email address
 			$subject 	= 'Password Changed'; // change to your prefer subject
 	
+			/*** you may customize your email message here ***/
 			$message  = __('You had successfully change your Weblab account password.') . "\r\n\r\n";
 			$message .= __('New password: ' . $formPwd . '') . "\r\n\r\n";
 			$message .= __( 'Thanks!' ) . "\r\n";
